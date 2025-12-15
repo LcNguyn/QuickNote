@@ -1,18 +1,19 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { StyleSheet, Text } from "react-native";
+import { TextVariant, textVariants } from "../../theme/typography";
 
 const CustomText = ({
   children,
   style,
+  variant,
 }: {
   children: React.ReactNode;
   style?: object;
+  variant?: TextVariant;
 }) => {
-  return (
-    <View>
-      <Text style={[styles.text, style]}>{children}</Text>
-    </View>
-  );
+  const variantStyles = textVariants[variant || "body"];
+
+  return <Text style={[styles.text, style, variantStyles]}>{children}</Text>;
 };
 
 export default CustomText;

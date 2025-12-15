@@ -90,7 +90,7 @@ const TabsLayout = () => {
                 }}
               >
                 <Ionicons name="chevron-back-outline" size={24} color="#fff" />
-                <CustomText>New Note</CustomText>
+                <CustomText variant="screenTitle">New Note</CustomText>
               </TouchableOpacity>
             );
           },

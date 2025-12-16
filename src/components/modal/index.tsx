@@ -14,6 +14,7 @@ import PinkyButton from "../PinkyButton";
 
 const Modal = ({
   title,
+  content,
   visible,
   setModalVisible,
   confirmLabel = "OK",
@@ -21,6 +22,7 @@ const Modal = ({
   cancellable = true,
 }: {
   title: string;
+  content?: string;
   visible: boolean;
   confirmLabel?: string;
   setModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
@@ -48,6 +50,8 @@ const Modal = ({
                 style={styles.modalView}
               >
                 <CustomText variant="modalTitle">{title}</CustomText>
+                {content && <CustomText>{content}</CustomText>}
+
                 <View style={styles.buttonsContainer}>
                   <PinkyButton
                     size="md"

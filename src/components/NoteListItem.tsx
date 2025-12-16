@@ -1,22 +1,25 @@
 import React from "react";
-import { StyleSheet } from "react-native";
+import { Pressable, StyleSheet } from "react-native";
 import { Note } from "../types/note";
 import CustomText from "./CustomText";
 import NavListItem from "./NavListItem";
 
-const NoteListItem = ({ children }: { children: Note }) => {
+const NoteListItem = ({
+  children,
+  onPress,
+}: {
+  children: Note;
+  onPress?: () => void;
+}) => {
   return (
-    <NavListItem>
-      <CustomText>{children.title}</CustomText>
-    </NavListItem>
+    <Pressable onPress={onPress}>
+      <NavListItem>
+        <CustomText>{children.title}</CustomText>
+      </NavListItem>
+    </Pressable>
   );
 };
 
 export default NoteListItem;
 
-const styles = StyleSheet.create({
-  wrapper: {
-    flexDirection: "row",
-    gap: 40, // Move gap after flexDirection and alignItems
-  },
-});
+const styles = StyleSheet.create({});

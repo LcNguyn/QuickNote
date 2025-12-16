@@ -4,12 +4,23 @@ A modern React Native note-taking application built with Expo and TypeScript.
 
 ## 📱 Features
 
-- Create and deletes notes across different categories
+- Create/delete a note across different categories
+- Delete all notes
 - Beautiful gradient UI with custom themes
-- Tab-based navigation with home, summary, and add note screens
+- Tab-based navigation with home, summary, settings and add note screens
 - Redux state management with persistent storage
 - Custom fonts and icons
 - Cross-platform support (iOS & Android)
+
+## 📱 Additional Features (not in the requirements)
+
+- Theme colors, fonts, styling setup
+- Auto seed data for testing purpose
+- Flexible, reusable modal
+- Pressing a note opens a modal showing the note detail
+- Delete the note by pressing the button in the modal
+- Add note screen has a message showing number of the remain characters the user can input
+- Delete all notes has a confirm modal for user to double check their decision
 
 ## 🚀 Runtime Environment & SDK Versions
 

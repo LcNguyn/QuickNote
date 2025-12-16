@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import Svg, { Defs, LinearGradient, Path, Stop } from "react-native-svg";
 
-const RightArrow = ({ size = 18 }) => {
+const RightArrow = ({ size = 18 }: { size?: number }) => {
   return (
     <Svg width={size} height={size} viewBox="0 0 8 14">
       <Defs>

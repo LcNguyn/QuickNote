@@ -1,23 +1,37 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { NewNotePayload, Note } from "../types/note";
+import { seedNotes } from "./seedData";
 
 interface NotesState {
-  notes: Note[];
+  noteIds: string[];
+  noteEntities: Record<string, Note>;
   loading: boolean;
   error: string | null;
 }
 
 const initialState: NotesState = {
-  notes: [],
+  noteIds: [],
+  noteEntities: {},
   loading: false,
   error: null,
 };
 
 export const loadNotes = createAsyncThunk("notes/loadNotes", async () => {
   // Simulate loading notes from persistent storage
-  const storedNotes = await AsyncStorage.getItem("notes");
-  return storedNotes ? JSON.parse(storedNotes) : [];
+  // const storedNotes = await AsyncStorage.getItem("notes");
+  const storedNotes = null;
+
+  //Seed data for testing
+  const seedData = {
+    noteIds: seedNotes.noteIds,
+    noteEntities: seedNotes.noteEntities,
+  };
+
+  return storedNotes
+    ? JSON.parse(storedNotes)
+    : // : { noteIds: [], noteEntities: {} };
+      seedData;
 });
 
 export const addNote = createAsyncThunk(
@@ -32,8 +46,18 @@ export const addNote = createAsyncThunk(
       createdAt: Date.now(),
     };
     const state = getState() as { notes: NotesState };
-    const updatedNotes = [...state.notes.notes, note];
-    await AsyncStorage.setItem("notes", JSON.stringify(updatedNotes));
+    const updatedNoteIds = [...state.notes.noteIds, note.id];
+    const updatedNoteEntities = {
+      ...state.notes.noteEntities,
+      [note.id]: note,
+    };
+    await AsyncStorage.setItem(
+      "notes",
+      JSON.stringify({
+        noteIds: updatedNoteIds,
+        noteEntities: updatedNoteEntities,
+      })
+    );
     return note;
   }
 );
@@ -43,10 +67,12 @@ const notesSlice = createSlice({
   initialState,
   reducers: {
     deleteNote: (state, action: PayloadAction<string>) => {
-      state.notes = state.notes.filter((note) => note.id !== action.payload);
+      state.noteIds = state.noteIds.filter((id) => id !== action.payload);
+      delete state.noteEntities[action.payload];
     },
     deleteAllNotes: (state) => {
-      state.notes = [];
+      state.noteIds = [];
+      state.noteEntities = {};
       AsyncStorage.removeItem("notes");
     },
   },
@@ -55,16 +81,27 @@ const notesSlice = createSlice({
       .addCase(loadNotes.pending, (state) => {
         state.loading = true;
       })
-      .addCase(loadNotes.fulfilled, (state, action: PayloadAction<Note[]>) => {
-        state.loading = false;
-        state.notes = action.payload;
-      })
+      .addCase(
+        loadNotes.fulfilled,
+        (
+          state,
+          action: PayloadAction<{
+            noteIds: string[];
+            noteEntities: Record<string, Note>;
+          }>
+        ) => {
+          state.loading = false;
+          state.noteIds = action.payload.noteIds;
+          state.noteEntities = action.payload.noteEntities;
+        }
+      )
       .addCase(loadNotes.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message || "Failed to load notes";
       })
       .addCase(addNote.fulfilled, (state, action: PayloadAction<Note>) => {
-        state.notes.push(action.payload);
+        state.noteIds.push(action.payload.id);
+        state.noteEntities[action.payload.id] = action.payload;
       });
   },
 });

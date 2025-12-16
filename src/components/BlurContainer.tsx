@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import borderRadius from "../../theme/borderRadius";
 
 const BlurContainer = ({
   children,
@@ -21,6 +22,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#FFFFFF1F",
     backgroundColor: "#ffffff19",
-    borderRadius: 16,
+    borderRadius: borderRadius.lg,
   },
 });

@@ -1,14 +1,18 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Note } from "../types/note";
-import CustomText from "./CustomText";
-import RightArrow from "./RightArrow";
 import BlurContainer from "./BlurContainer";
+import RightArrow from "./customIcons/RightArrow";
 
-const NavListItem = ({ children }: { children: React.ReactNode }) => {
+const NavListItem = ({
+  children,
+  style,
+}: {
+  children: React.ReactNode;
+  style?: object;
+}) => {
   return (
     <BlurContainer style={styles.wrapper}>
-      <View style={{ flex: 1 }}>{children}</View>
+      <View style={[{ flex: 1 }, style]}>{children}</View>
       <RightArrow />
     </BlurContainer>
   );

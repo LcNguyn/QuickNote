@@ -1,11 +1,14 @@
-import { Ionicons } from "@expo/vector-icons";
-import { router, Stack } from "expo-router";
+import { useFonts } from "expo-font";
+import { LinearGradient } from "expo-linear-gradient";
+import { Stack } from "expo-router";
 import { useEffect } from "react";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { StyleSheet, Text } from "react-native";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { Provider, useDispatch } from "react-redux";
+import ScreenBackground from "../src/components/screen/ScreenBackground";
 import { loadNotes } from "../src/redux/notesSlice";
 import { AppDispatch, store } from "../src/redux/store";
-import CustomText from "../src/components/CustomText";
+import { toastConfig } from "../src/config/toast";
 
 // Component that uses Redux hooks - must be INSIDE Provider
 const RootLayout = () => {
@@ -18,44 +21,43 @@ const RootLayout = () => {
 
   return (
     <Provider store={store}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="settings"
-          options={({}) => ({
-            headerTitle: "",
-            headerStyle: {
-              backgroundColor: "#1B284F", // Apply to all headers
-            },
-            headerTintColor: "#fff", // White text for all headers
-            //custom back button
-            headerLeft: () => {
-              return (
-                <TouchableOpacity
-                  onPress={() => router.back()}
-                  style={{
-                    marginRight: 16,
-                    flexDirection: "row",
-                    alignItems: "center",
-                  }}
-                >
-                  <Ionicons
-                    name="chevron-back-outline"
-                    size={24}
-                    color="#fff"
-                  />
-                  <CustomText>Settings</CustomText>
-                </TouchableOpacity>
-              );
-            },
+      <ScreenBackground>
+        <Stack
+          screenOptions={({ route }) => ({
+            headerBackground: () => (
+              <LinearGradient
+                colors={["#280947", "#280841"]}
+                locations={[0.0368, 0.9871]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0.2 }}
+                style={{ flex: 1 }}
+              />
+            ),
           })}
-        />
-      </Stack>
+        >
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+        <Toast config={toastConfig} />
+      </ScreenBackground>
     </Provider>
   );
 };
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    "PF ExtraLight": require("../assets/fonts/PingFang-ExtraLight.ttf"),
+    "PF Light": require("../assets/fonts/PingFang-Light.ttf"),
+    "PF Regular": require("../assets/fonts/PingFang-Regular.ttf"),
+    "PF Medium": require("../assets/fonts/PingFang-Medium.ttf"),
+    "PF Bold": require("../assets/fonts/PingFang-Bold.ttf"),
+    "PF Heavy": require("../assets/fonts/PingFang-Heavy.ttf"),
+  });
+
+  if (!fontsLoaded)
+    return (
+      //Loading spinner
+      <Text>Loading fonts...</Text>
+    );
   return (
     <Provider store={store}>
       <RootLayout />

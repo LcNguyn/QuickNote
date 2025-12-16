@@ -1,8 +1,33 @@
 # QuickNote
 
-A modern React Native note-taking application built with Expo and TypeScript.
+A React Native note-taking application built with Expo and TypeScript.
+
+<img width="200" height="200" alt="image" src="https://github.com/user-attachments/assets/5bb89fb5-c5ad-4322-b74e-fbbf72e1886a" />
 
 ## 📱 Features
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/9d22fd62-33e5-47db-bc73-4c24a9491ee6" width="200px;" alt="image 1" />
+      <br />
+    </td>
+     <td align="center">
+      <img src="https://github.com/user-attachments/assets/bc8325b7-2c0a-4ce4-b210-066561bb6f01" width="200px;" alt="image 4" />
+      <br />
+    </td>
+     <td align="center">
+      <img src="https://github.com/user-attachments/assets/33cadf9d-f29f-4ddc-94c0-75b5e6cfb182" width="200px;" alt="image 3" />
+      <br />
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/de1454df-19ee-4fae-8724-1af4e38d2d08" width="200px;" alt="image 2" />
+      <br />
+    </td>
+  </tr>
+</table>
+
+
 
 - Create/delete a note across different categories
 - Delete all notes
@@ -13,6 +38,31 @@ A modern React Native note-taking application built with Expo and TypeScript.
 - Cross-platform support (iOS & Android)
 
 ## 📱 Additional Features (not in the requirements)
+<table>
+  <tr>
+     <td align="center">
+      <img src="https://github.com/user-attachments/assets/fb87b610-32b5-4c9d-a620-9a206a6a9924" width="200px;" alt="image 2" />
+      <br />
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/c8cf8e3d-9b77-4b45-a6e6-f26fc1e408a3" width="200px;" alt="image 1" />
+      <br />
+    </td>
+     <td align="center">
+      <img src="https://github.com/user-attachments/assets/fdb14bbf-2f79-40db-9d07-c2138106d8bf" width="200px;" alt="image 4" />
+      <br />
+    </td>
+     <td align="center">
+      <img src="https://github.com/user-attachments/assets/6d7a2236-f71e-40a0-abb9-b9c7f4a8b183" width="200px;" alt="image 3" />
+      <br />
+    </td>
+     <td align="center">
+      <img src="https://github.com/user-attachments/assets/54c4da81-f09d-4b7c-abd0-600ede14c4a2" width="200px;" alt="image 3" />
+      <br />
+    </td>
+ 
+  </tr>
+</table>
 
 - Theme colors, fonts, styling setup
 - Auto seed data for testing purpose
@@ -21,6 +71,7 @@ A modern React Native note-taking application built with Expo and TypeScript.
 - Delete the note by pressing the button in the modal
 - Add note screen has a message showing number of the remain characters the user can input
 - Delete all notes has a confirm modal for user to double check their decision
+
 
 ## 🚀 Runtime Environment & SDK Versions
 

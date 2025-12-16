@@ -2,16 +2,18 @@ import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { StyleSheet } from "react-native";
 import borderRadius from "../../../theme/borderRadius";
+import { useTheme } from "../../hooks/useTheme";
 
 const ScreenHeaderBg = () => {
+  const theme = useTheme();
   return (
     <LinearGradient
-      colors={["#280947", "#280841"]}
+      colors={theme.gradient.screenHeaderBg}
       locations={[0.0368, 0.9871]}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0.2 }}
       style={{
-        flex: 1,
+        ...styles.container,
         borderBottomLeftRadius: borderRadius.lg,
         borderBottomRightRadius: borderRadius.lg,
       }}
@@ -21,4 +23,8 @@ const ScreenHeaderBg = () => {
 
 export default ScreenHeaderBg;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});

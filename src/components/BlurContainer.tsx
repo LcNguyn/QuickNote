@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import { StyleSheet, View } from "react-native";
 import borderRadius from "../../theme/borderRadius";
+import { useTheme } from "../hooks/useTheme";
 
 const BlurContainer = ({
   children,
@@ -9,7 +10,19 @@ const BlurContainer = ({
   children: React.ReactNode;
   style?: object;
 }) => {
-  return <View style={[styles.container, style]}>{children}</View>;
+  const theme = useTheme();
+  return (
+    <View
+      style={{
+        ...styles.container,
+        backgroundColor: theme.colors.containerBg,
+        borderColor: theme.colors.border,
+        ...style,
+      }}
+    >
+      {children}
+    </View>
+  );
 };
 
 export default BlurContainer;
@@ -20,8 +33,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderWidth: 1,
-    borderColor: "#FFFFFF1F",
-    backgroundColor: "#ffffff19",
     borderRadius: borderRadius.lg,
   },
 });

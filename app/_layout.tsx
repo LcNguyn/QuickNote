@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
 import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { Provider, useDispatch } from "react-redux";
-import ScreenBackground from "../src/components/screen/ScreenBackground";
+import ScreenBackground from "../src/screens/common/ScreenBackground";
 import { loadNotes } from "../src/redux/notesSlice";
 import { AppDispatch, store } from "../src/redux/store";
 import { toastConfig } from "../src/config/toast";
@@ -22,19 +22,7 @@ const RootLayout = () => {
   return (
     <Provider store={store}>
       <ScreenBackground>
-        <Stack
-          screenOptions={({ route }) => ({
-            headerBackground: () => (
-              <LinearGradient
-                colors={["#280947", "#280841"]}
-                locations={[0.0368, 0.9871]}
-                start={{ x: 0, y: 0 }}
-                end={{ x: 1, y: 0.2 }}
-                style={{ flex: 1 }}
-              />
-            ),
-          })}
-        >
+        <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack>
         <Toast config={toastConfig} />
@@ -64,12 +52,3 @@ export default function App() {
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

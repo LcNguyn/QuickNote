@@ -2,7 +2,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { StyleSheet } from "react-native";
 import borderRadius from "../../../theme/borderRadius";
-import { bottomTabBarHeight } from "../../../theme/screenLayout";
+import { useTheme } from "../../hooks/useTheme";
 
 const TabBarBackground = ({
   children,
@@ -11,15 +11,16 @@ const TabBarBackground = ({
   children?: React.ReactNode;
   style?: object;
 }) => {
+  const theme = useTheme();
   return (
     <LinearGradient
-      colors={["#1C0B37", "#1D0837"]}
+      colors={theme.gradient.tabBarBg}
       locations={[0, 1]}
       style={{
-        width: "100%",
+        ...styles.container,
         borderTopLeftRadius: borderRadius.lg,
         borderTopRightRadius: borderRadius.lg,
-        height: bottomTabBarHeight,
+        height: theme.tabBarHeight,
         ...style,
       }}
     >
@@ -30,4 +31,8 @@ const TabBarBackground = ({
 
 export default TabBarBackground;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+  },
+});

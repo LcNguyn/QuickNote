@@ -1,16 +1,16 @@
 import React from "react";
 import { FlatList, Image, StyleSheet } from "react-native";
+import Toast from "react-native-toast-message";
 import { useDispatch } from "react-redux";
 import CustomText from "../../src/components/CustomText";
+import Modal from "../../src/components/modal";
 import NavListItem from "../../src/components/NavListItem";
-import ButtonTabBar from "../../src/components/screen/ButtonTabBar";
-import ScreenBackground from "../../src/components/screen/ScreenBackground";
+import ButtonTabBar from "../../src/screens/common/ButtonTabBar";
+import ScreenBackground from "../../src/screens/common/ScreenBackground";
+import { useTheme } from "../../src/hooks/useTheme";
 import { deleteAllNotes } from "../../src/redux/notesSlice";
 import { AppDispatch } from "../../src/redux/store";
 import { Settings, SettingServices } from "../../src/types/note";
-import Toast from "react-native-toast-message";
-import { bottomTabBarHeight } from "../../theme/screenLayout";
-import Modal from "../../src/components/modal";
 
 const CategoryIcon = ({ category }: { category: SettingServices }) => {
   let imageSource;
@@ -29,28 +29,28 @@ const CategoryIcon = ({ category }: { category: SettingServices }) => {
       break;
   }
   return (
-    <Image
-      source={imageSource}
-      style={{
-        width: 30,
-        height: 30,
-      }}
-      resizeMode="contain"
-    />
+    <Image source={imageSource} style={styles.image} resizeMode="contain" />
   );
 };
 
 const SettingsScreen = () => {
+  const theme = useTheme();
   const dispatch = useDispatch<AppDispatch>();
   const [modalVisible, setModalVisible] = React.useState(false);
 
   const showToast = () => {
     Toast.show({
-      type: "tomatoToast",
+      type: "modalToast",
       text1: "All notes have been cleared",
       position: "bottom",
-      bottomOffset: bottomTabBarHeight + 20,
+      bottomOffset: theme.tabBarHeight + 20,
     });
+  };
+
+  const onPressDeleteNotes = () => {
+    dispatch(deleteAllNotes());
+    setModalVisible(false);
+    showToast();
   };
 
   return (
@@ -59,14 +59,7 @@ const SettingsScreen = () => {
         data={Object.keys(Settings)}
         keyExtractor={(item) => item}
         renderItem={({ item }) => (
-          <NavListItem
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              gap: 12,
-              alignItems: "center",
-            }}
-          >
+          <NavListItem style={styles.serviceItem}>
             <CategoryIcon category={item as SettingServices} />
             <CustomText>{Settings[item as SettingServices].name}</CustomText>
           </NavListItem>
@@ -79,22 +72,15 @@ const SettingsScreen = () => {
         label="Delete all notes"
         onPress={() => {
           setModalVisible(true);
-          // showToast();
-          // dispatch(deleteAllNotes())
         }}
       />
-      {modalVisible && (
-        <Modal
-          title="Are you sure you want to delete all notes?"
-          setModalVisible={setModalVisible}
-          onConfirm={() => {
-            dispatch(deleteAllNotes());
-            setModalVisible(false);
-            showToast();
-          }}
-          cancellable={false}
-        />
-      )}
+      <Modal
+        visible={modalVisible}
+        title="Are you sure you want to delete all notes?"
+        confirmLabel="Delete Permanently"
+        setModalVisible={setModalVisible}
+        onConfirm={onPressDeleteNotes}
+      />
     </ScreenBackground>
   );
 };
@@ -109,5 +95,15 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     padding: 20,
+  },
+  image: {
+    width: 30,
+    height: 30,
+  },
+  serviceItem: {
+    flex: 1,
+    flexDirection: "row",
+    gap: 12,
+    alignItems: "center",
   },
 });

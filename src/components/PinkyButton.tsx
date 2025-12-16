@@ -1,8 +1,9 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
-import CustomText from "./CustomText";
 import { LinearGradient } from "expo-linear-gradient";
+import React from "react";
+import { StyleSheet, TouchableOpacity } from "react-native";
 import borderRadius from "../../theme/borderRadius";
+import { useTheme } from "../hooks/useTheme";
+import CustomText from "./CustomText";
 
 const PinkyButton = ({
   label,
@@ -11,8 +12,9 @@ const PinkyButton = ({
 }: {
   label: string;
   onPress: () => void;
-  size: "xs" | "sm" | "md" | "lg";
+  size?: "xs" | "sm" | "md" | "lg";
 }) => {
+  const theme = useTheme();
   let buttonWidth;
 
   switch (size) {
@@ -34,7 +36,7 @@ const PinkyButton = ({
   return (
     <TouchableOpacity onPress={onPress}>
       <LinearGradient
-        colors={["#F94695", "#F13A76"]}
+        colors={theme.gradient.primaryBtn}
         locations={[0, 1]}
         style={[styles.button, { width: buttonWidth }]}
       >

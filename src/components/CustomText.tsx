@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, Text } from "react-native";
-import { TextVariant, textVariants } from "../../theme/typography";
+import { textVariants } from "../../theme/typography";
+import { useTheme } from "../hooks/useTheme";
+import { TextVariant } from "../types/theme/font";
 
 const CustomText = ({
   children,
@@ -11,9 +13,16 @@ const CustomText = ({
   style?: object;
   variant?: TextVariant;
 }) => {
+  const theme = useTheme();
   const variantStyles = textVariants[variant || "body"];
 
-  return <Text style={[styles.text, style, variantStyles]}>{children}</Text>;
+  return (
+    <Text
+      style={[styles.text, { color: theme.colors.text }, variantStyles, style]}
+    >
+      {children}
+    </Text>
+  );
 };
 
 export default CustomText;
@@ -21,6 +30,5 @@ export default CustomText;
 const styles = StyleSheet.create({
   text: {
     fontSize: 16,
-    color: "#fff",
   },
 });

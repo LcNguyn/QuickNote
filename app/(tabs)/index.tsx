@@ -1,37 +1,13 @@
 import React, { useEffect } from "react";
-import { Image, SectionList, StyleSheet, View } from "react-native";
+import { SectionList, StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
-import CustomText from "../../src/components/CustomText";
 import NoteListItem from "../../src/components/NoteListItem";
+import { useTheme } from "../../src/hooks/useTheme";
 import { RootState } from "../../src/redux/store";
+import CategoryHeader from "../../src/screens/Home/components/CategoryHeader";
+import EmptyListMessage from "../../src/screens/Home/components/EmptyListMessage";
+import RecentCreated from "../../src/screens/Home/components/RecentCreated";
 import { Note, NoteCategory } from "../../src/types/note";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-
-const CategoryIcon = ({ category }: { category: NoteCategory }) => {
-  let imageSource;
-  switch (category) {
-    case "Health and Wellness":
-      imageSource = require("../../assets/icons/homeTab/home-health.png");
-      break;
-    case "Life":
-      imageSource = require("../../assets/icons/homeTab/home-life.png");
-      break;
-    case "Work and Study":
-      imageSource = require("../../assets/icons/homeTab/home-workstudy.png");
-      break;
-  }
-
-  return (
-    <Image
-      source={imageSource}
-      style={{
-        width: 20,
-        height: 20,
-      }}
-      resizeMode="contain"
-    />
-  );
-};
 
 const HomeScreen = () => {
   const { noteIds, noteEntities, loading } = useSelector(
@@ -84,27 +60,16 @@ const HomeScreen = () => {
         sections={sections}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => <NoteListItem>{item}</NoteListItem>}
-        renderSectionHeader={({ section: { title } }) => (
-          <View style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
-            <CategoryIcon category={title as NoteCategory} />
-            <CustomText variant="categoryHeader">{title}</CustomText>
-          </View>
+        renderSectionFooter={({ section }) => (
+          <EmptyListMessage section={section} />
+        )}
+        renderSectionHeader={({ section }) => (
+          <CategoryHeader section={section} />
         )}
         contentContainerStyle={{ gap: 12 }}
         stickySectionHeadersEnabled={false}
         showsVerticalScrollIndicator={false}
-        ListHeaderComponent={() => (
-          <View style={styles.recentCreated}>
-            <MaterialCommunityIcons
-              name="clock-time-three-outline"
-              size={20}
-              color="#fff"
-            />
-            <CustomText variant="categoryHeader">
-              Recently created notes
-            </CustomText>
-          </View>
-        )}
+        ListHeaderComponent={() => <RecentCreated />}
       />
     </View>
   );
@@ -118,10 +83,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingTop: 20,
     gap: 16,
-  },
-  recentCreated: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
   },
 });

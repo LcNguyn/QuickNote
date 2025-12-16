@@ -13,15 +13,17 @@ import {
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { useDispatch } from "react-redux";
-import ButtonTabBar from "../../src/components/screen/ButtonTabBar";
+import ButtonTabBar from "../../src/screens/common/ButtonTabBar";
+import { useTheme } from "../../src/hooks/useTheme";
 import { addNote } from "../../src/redux/notesSlice";
 import { AppDispatch } from "../../src/redux/store";
 import { CATEGORIES, NoteCategory } from "../../src/types/note";
 import borderRadius from "../../theme/borderRadius";
+import CustomText from "../../src/components/CustomText";
 
 export default function AddNoteScreen() {
   const dispatch = useDispatch<AppDispatch>();
-  // const [title, setTitle] = useState("");
+  const theme = useTheme();
   const [content, setContent] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -39,7 +41,7 @@ export default function AddNoteScreen() {
     dispatch(addNote({ content: content.trim(), category }));
 
     // Clear form after saving
-    // setTitle("");
+    setCategory(null);
     setContent("");
 
     Alert.alert("Success", "Note saved successfully!");
@@ -69,7 +71,7 @@ export default function AddNoteScreen() {
         keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 20}
       >
         <TouchableWithoutFeedback onPress={dismissKeyboard}>
-          <View style={{ flex: 1 }}>
+          <View style={styles.innerContainer}>
             <ScrollView
               style={styles.scrollView}
               contentContainerStyle={styles.scrollContent}
@@ -77,22 +79,34 @@ export default function AddNoteScreen() {
               showsVerticalScrollIndicator={false}
             >
               <View style={styles.form}>
-                <View style={{ flex: 1, width: "100%", padding: 16 }}>
+                <View style={styles.formInput}>
                   <DropDownPicker
-                    textStyle={{ color: "#fff" }}
+                    textStyle={{ color: theme.colors.text }}
                     dropDownContainerStyle={{
-                      backgroundColor: "#58327eff",
-                      borderColor: "#FFFFFF1F",
+                      backgroundColor: theme.colors.dropdownContainerBg,
+                      borderColor: theme.colors.border,
                       borderRadius: borderRadius.lg,
                     }}
                     ArrowDownIconComponent={() => (
-                      <Feather name="chevron-down" size={16} color="#fff" />
+                      <Feather
+                        name="chevron-down"
+                        size={16}
+                        color={theme.colors.icon}
+                      />
                     )}
                     ArrowUpIconComponent={() => (
-                      <Feather name="chevron-up" size={16} color="#fff" />
+                      <Feather
+                        name="chevron-up"
+                        size={16}
+                        color={theme.colors.icon}
+                      />
                     )}
                     TickIconComponent={() => (
-                      <Feather name="check" size={16} color="#fff" />
+                      <Feather
+                        name="check"
+                        size={16}
+                        color={theme.colors.icon}
+                      />
                     )}
                     open={open}
                     value={category}
@@ -100,7 +114,11 @@ export default function AddNoteScreen() {
                     setOpen={setOpen}
                     setValue={setCategory}
                     setItems={setCatItems}
-                    style={styles.dropdown}
+                    style={{
+                      ...styles.dropdown,
+                      backgroundColor: theme.colors.containerBg,
+                      borderColor: theme.colors.border,
+                    }}
                     zIndex={1000}
                     zIndexInverse={3000}
                     placeholder="Select an item"
@@ -108,14 +126,23 @@ export default function AddNoteScreen() {
 
                   <TextInput
                     placeholder="Please input note content"
-                    placeholderTextColor="#fff" // Semi-transparent white placeholder
-                    style={styles.contentInput}
+                    placeholderTextColor={theme.colors.text} // Semi-transparent white placeholder
+                    style={{
+                      ...styles.contentInput,
+                      borderColor: theme.colors.border,
+                      backgroundColor: theme.colors.containerBg,
+                      color: theme.colors.text,
+                    }}
                     value={content}
                     onChangeText={setContent}
                     multiline
                     textAlignVertical="top"
-                    maxLength={5000}
+                    maxLength={200}
                   />
+                  {/* Character left */}
+                  <CustomText style={{ alignSelf: "flex-end" }}>
+                    {200 - content.length} characters left
+                  </CustomText>
                 </View>
               </View>
             </ScrollView>
@@ -146,54 +173,22 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     marginBottom: 16,
-    borderColor: "#FFFFFF1F",
-    backgroundColor: "#ffffff19",
-    color: "#fff",
     borderRadius: borderRadius.lg,
   },
-  titleInput: {
-    height: 50,
-    borderColor: "#e0e0e0",
-    borderWidth: 1,
-    borderRadius: borderRadius.lg,
-    paddingHorizontal: 12,
-    fontSize: 16,
-    marginBottom: 16,
-    backgroundColor: "#fafafa",
-  },
+
   contentInput: {
-    borderColor: "#FFFFFF1F",
     borderWidth: 1,
     borderRadius: borderRadius.lg,
     padding: 12,
     fontSize: 16,
     marginBottom: 12,
-    backgroundColor: "#ffffff19", // Semi-transparent background
-    color: "#fff", // White text color
     width: "100%",
     height: 334,
   },
-  doneButton: {
-    backgroundColor: "#f0f0f0",
-    paddingVertical: 10,
-    borderRadius: borderRadius.lg,
-    alignItems: "center",
-    marginBottom: 16,
+  formInput: {
+    flex: 1,
+    width: "100%",
+    padding: 16,
   },
-  doneButtonText: {
-    color: "#007AFF",
-    fontSize: 14,
-    fontWeight: "500",
-  },
-  saveButton: {
-    backgroundColor: "#007AFF",
-    paddingVertical: 16,
-    borderRadius: borderRadius.lg,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 20, // Extra margin for keyboard
-  },
-  saveButtonDisabled: {
-    backgroundColor: "#ccc",
-  },
+  innerContainer: { flex: 1 },
 });

@@ -1,6 +1,7 @@
+import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { StyleSheet } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
+import { useTheme } from "../../hooks/useTheme";
 
 const ScreenBackground = ({
   children,
@@ -9,9 +10,10 @@ const ScreenBackground = ({
   children: React.ReactNode;
   style?: object;
 }) => {
+  const theme = useTheme();
   return (
     <LinearGradient
-      colors={["#1B284F", "#351159", "#421C45", "#3B184E"]}
+      colors={theme.gradient.screenBg}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
       style={[styles.container, style]}

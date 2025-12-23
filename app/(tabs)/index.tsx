@@ -33,31 +33,19 @@ const HomeScreen = () => {
       "Health and Wellness": [],
     };
 
+    // First, group all notes by category
     for (const id of noteIds) {
       const note = noteEntities[id];
       if (!note) continue;
-
-      const displayArr = categorized[note.category];
-
-      if (displayArr.length < 3) {
-        displayArr.push(note);
-      } else {
-        let oldest = 0;
-        for (let i = 1; i < displayArr.length; i++) {
-          if (displayArr[i].createdAt < displayArr[oldest].createdAt)
-            oldest = i;
-        }
-        if (note.createdAt > displayArr[oldest].createdAt) {
-          displayArr[oldest] = note;
-        }
-      }
+      categorized[note.category].push(note);
     }
 
+    // Then sort each category and take the 3 most recent notes
     const newSections = Object.keys(categorized).map((category) => ({
       title: category as NoteCategory,
-      data: categorized[category as NoteCategory].sort(
-        (a, b) => b.createdAt - a.createdAt
-      ),
+      data: categorized[category as NoteCategory]
+        .sort((a, b) => b.createdAt - a.createdAt)
+        .slice(0, 3),
     }));
 
     setSections(newSections);

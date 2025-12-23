@@ -72,80 +72,69 @@ export default function AddNoteScreen() {
       >
         <TouchableWithoutFeedback onPress={dismissKeyboard}>
           <View style={styles.innerContainer}>
-            <ScrollView
-              style={styles.scrollView}
-              contentContainerStyle={styles.scrollContent}
-              keyboardShouldPersistTaps="handled"
-              showsVerticalScrollIndicator={false}
-            >
-              <View style={styles.form}>
-                <View style={styles.formInput}>
-                  <DropDownPicker
-                    textStyle={{ color: theme.colors.text }}
-                    dropDownContainerStyle={{
-                      backgroundColor: theme.colors.dropdownContainerBg,
-                      borderColor: theme.colors.border,
-                      borderRadius: borderRadius.lg,
-                    }}
-                    ArrowDownIconComponent={() => (
-                      <Feather
-                        name="chevron-down"
-                        size={16}
-                        color={theme.colors.icon}
-                      />
-                    )}
-                    ArrowUpIconComponent={() => (
-                      <Feather
-                        name="chevron-up"
-                        size={16}
-                        color={theme.colors.icon}
-                      />
-                    )}
-                    TickIconComponent={() => (
-                      <Feather
-                        name="check"
-                        size={16}
-                        color={theme.colors.icon}
-                      />
-                    )}
-                    open={open}
-                    value={category}
-                    items={catItems}
-                    setOpen={setOpen}
-                    setValue={setCategory}
-                    setItems={setCatItems}
-                    style={{
-                      ...styles.dropdown,
-                      backgroundColor: theme.colors.containerBg,
-                      borderColor: theme.colors.border,
-                    }}
-                    zIndex={1000}
-                    zIndexInverse={3000}
-                    placeholder="Select an item"
-                  />
+            <View style={styles.form}>
+              <View style={styles.formInput}>
+                <DropDownPicker
+                  textStyle={{ color: theme.colors.text }}
+                  dropDownContainerStyle={{
+                    backgroundColor: theme.colors.dropdownContainerBg,
+                    borderColor: theme.colors.border,
+                    borderRadius: borderRadius.lg,
+                  }}
+                  ArrowDownIconComponent={() => (
+                    <Feather
+                      name="chevron-down"
+                      size={16}
+                      color={theme.colors.icon}
+                    />
+                  )}
+                  ArrowUpIconComponent={() => (
+                    <Feather
+                      name="chevron-up"
+                      size={16}
+                      color={theme.colors.icon}
+                    />
+                  )}
+                  TickIconComponent={() => (
+                    <Feather name="check" size={16} color={theme.colors.icon} />
+                  )}
+                  open={open}
+                  value={category}
+                  items={catItems}
+                  setOpen={setOpen}
+                  setValue={setCategory}
+                  setItems={setCatItems}
+                  style={{
+                    ...styles.dropdown,
+                    backgroundColor: theme.colors.containerBg,
+                    borderColor: theme.colors.border,
+                  }}
+                  zIndex={1000}
+                  zIndexInverse={3000}
+                  placeholder="Select an item"
+                />
 
-                  <TextInput
-                    placeholder="Please input note content"
-                    placeholderTextColor={theme.colors.text} // Semi-transparent white placeholder
-                    style={{
-                      ...styles.contentInput,
-                      borderColor: theme.colors.border,
-                      backgroundColor: theme.colors.containerBg,
-                      color: theme.colors.text,
-                    }}
-                    value={content}
-                    onChangeText={setContent}
-                    multiline
-                    textAlignVertical="top"
-                    maxLength={200}
-                  />
-                  {/* Character left */}
-                  <CustomText style={{ alignSelf: "flex-end" }}>
-                    {200 - content.length} characters left
-                  </CustomText>
-                </View>
+                <TextInput
+                  placeholder="Please input note content"
+                  placeholderTextColor={theme.colors.text}
+                  style={{
+                    ...styles.contentInput,
+                    borderColor: theme.colors.border,
+                    backgroundColor: theme.colors.containerBg,
+                    color: theme.colors.text,
+                  }}
+                  value={content}
+                  onChangeText={setContent}
+                  multiline
+                  textAlignVertical="top"
+                  maxLength={200}
+                />
+                {/* Character left */}
+                <CustomText style={{ alignSelf: "flex-end" }}>
+                  {200 - content.length} characters left
+                </CustomText>
               </View>
-            </ScrollView>
+            </View>
             <ButtonTabBar label="Save" onPress={onPressSave} />
           </View>
         </TouchableWithoutFeedback>
@@ -161,12 +150,6 @@ const styles = StyleSheet.create({
   keyboardAvoidingView: {
     flex: 1,
   },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    flexGrow: 1,
-  },
   form: {
     flex: 1,
     alignItems: "center",
@@ -175,7 +158,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     borderRadius: borderRadius.lg,
   },
-
   contentInput: {
     borderWidth: 1,
     borderRadius: borderRadius.lg,
@@ -190,5 +172,7 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 16,
   },
-  innerContainer: { flex: 1 },
+  innerContainer: {
+    flex: 1,
+  },
 });
